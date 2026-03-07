@@ -58,10 +58,14 @@ class Leaderboard(commands.Cog):
             text = ""
             for i, player in enumerate(players, start=1):
                 user = self.bot.get_user(player.discord_id) or await self.bot.fetch_user(player.discord_id)
-                text += f"**{i}. {user.name}** — {player.money}{settings.currency_symbol}\n"
+                if settings.currency_symbol_before:
+                    text += f"**{i}. {user.name}** — {settings.currency_symbol}{player.money}\n"
+                else:
+                    text += f"**{i}. {user.name}** — {player.money}{settings.currency_symbol}\n"
 
         embed.description = text
         embed.set_footer(text="Made by @unitedstatesoferland")
         embed.set_thumbnail(url=interaction.user.display_avatar.url)
 
         await interaction.followup.send(embed=embed)
+
